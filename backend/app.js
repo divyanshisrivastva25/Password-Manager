@@ -4,13 +4,22 @@ const express = require('express')
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+const mongoose = require('mongoose')
+const userModel = require('./models/user.js');
 
-// Middleware
-app.use(express.json());
+app.use(express.json()); 
+
+//MongoDB Connect
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("✅ MongoDB connected"))
+.catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Backend is running ✅");
+  res.send("Backend is running");
 });
 
 // Start server
