@@ -1,9 +1,9 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import LandingPage from "./routes/LandingPage";
+import Login from "./routes/Login";
+import Signup from "./routes/Signup";
+import Dashboard from "./routes/Dashboard";
 
 function App() {
   return (
