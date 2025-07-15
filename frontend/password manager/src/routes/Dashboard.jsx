@@ -42,6 +42,16 @@ function Dashboard() {
     }
   };
 
+  const handleUpdate = async (id, updatedData) => {
+    try {
+      await axios.put(`/passwords/${id}`, updatedData);
+      fetchPasswords();
+    } catch (err){
+      console.error("Update error:", err);
+      alert("Failed to update password");
+    }
+  };
+
   // Dashboard.jsx
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this password?"))
@@ -55,8 +65,6 @@ function Dashboard() {
       alert("Failed to delete password");
     }
   };
-
-
 
   useEffect(() => {
     fetchPasswords();
@@ -104,7 +112,7 @@ function Dashboard() {
             key={pass._id}
             pass={pass}
             onDelete={handleDelete}
-            
+            onUpdate={handleUpdate}
           />
         ))}
       </div>
