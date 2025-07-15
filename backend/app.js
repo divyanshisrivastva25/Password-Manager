@@ -109,6 +109,16 @@ app.post("/api/passwords", verifyUser, async (req, res) => {
 });
 
 //show all passwords
+app.get("/api/passwords", verifyUser, async (req, res) => {
+  try {
+    const passwords = await Password.find({ userId: req.user.id });
+    res.json(passwords);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch passwords" });
+  }
+});
+
+
 //update password
 //delete password
 
