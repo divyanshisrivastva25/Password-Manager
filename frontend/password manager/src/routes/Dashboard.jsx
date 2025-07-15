@@ -42,7 +42,21 @@ function Dashboard() {
     }
   };
 
-  
+  // Dashboard.jsx
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this password?"))
+      return;
+
+    try {
+      const res = await axios.delete(`/passwords/${id}`);
+      alert(res.data.message);
+      fetchPasswords();
+    } catch {
+      alert("Failed to delete password");
+    }
+  };
+
+
 
   useEffect(() => {
     fetchPasswords();
@@ -89,7 +103,8 @@ function Dashboard() {
           <PasswordItem
             key={pass._id}
             pass={pass}
-          
+            onDelete={handleDelete}
+            
           />
         ))}
       </div>
