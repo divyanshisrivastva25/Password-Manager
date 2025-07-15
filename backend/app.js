@@ -141,6 +141,24 @@ app.put("/api/passwords/:id", verifyUser, async (req, res) => {
 });
 
 //delete password
+app.delete("/api/passwords/:id", verifyUser, async (req, res) => {
+  try {
+    const deletedPassword = await Password.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
+
+    if (!deletedPassword) {
+      return res
+        .status(404)
+        .json({ message: "Password not found or unauthorized" });
+    }
+
+    res.json({ message: "Password deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete password" });
+  }
+});
 
 // Start server
 app.listen(PORT, () => {
