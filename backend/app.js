@@ -11,10 +11,16 @@ const cookieParser = require("cookie-parser");
 const userModel = require("./models/user.js");
 const verifyUser = require("./middleware/verifyUser");
 const Password = require("./models/password");
+const cors = require("cors");
+
 
 //middlewares
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:5173",  
+  credentials: true              
+}));
 
 //MongoDB Connect
 mongoose
