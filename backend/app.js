@@ -10,8 +10,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const userModel = require("./models/user.js");
 const verifyUser = require("./middleware/verifyUser");
-const Password = require("./models/password"); 
-
+const Password = require("./models/password");
 
 //middlewares
 app.use(cookieParser());
@@ -53,21 +52,24 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 
-
 // POST /api/login
 app.post("/api/login", async (req, res) => {
   let user = await userModel.findOne({ email: req.body.email });
-  if (!user) return res.status(400).json({message:"Something is wrong ! "});
+  if (!user) return res.status(400).json({ message: "Something is wrong ! " });
 
   bcrypt.compare(req.body.password, user.password, function (err, result) {
     if (result) {
-      let token = jwt.sign({ email: user.email, id: user._id.toString()  }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-      });
+      let token = jwt.sign(
+        { email: user.email, id: user._id.toString() },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1d",
+        }
+      );
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: "strict",
-        secure: false, 
+        secure: false,
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       });
       console.log(token);
@@ -76,11 +78,10 @@ app.post("/api/login", async (req, res) => {
   });
 });
 
-
 //POST /api/logout
-app.post('/api/logout', (req, res) => {
-  res.clearCookie('token');
-  res.json({ message: 'You are logged out' });
+app.post("/api/logout", (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "You are logged out" });
 });
 
 //protected function
@@ -118,8 +119,27 @@ app.get("/api/passwords", verifyUser, async (req, res) => {
   }
 });
 
-
 //update password
+app.put("/api/passwords/:id", verifyUser, async (req, res) => {
+  try {
+    const updatedPassword = await Password.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      req.body,
+      { new: true }
+    );
+    if (!updatedPassword) {
+      return res
+        .status(404)
+        .json({ message: "Password not found or unauthorized" });
+    }
+
+    res.json({ message: "Password updated", data: updatedPassword });
+  } catch (err) {
+    console.error("Error updating password:", err);
+    res.status(500).json({ error: "Failed to update password" });
+  }
+});
+
 //delete password
 
 // Start server
