@@ -26,7 +26,7 @@ const handleSubmit = async (e) => {
 };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "50px" }}>
       <h1>Create your account</h1>
       <form onSubmit={handleSubmit}>
         <input
