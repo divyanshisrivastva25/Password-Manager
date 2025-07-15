@@ -53,7 +53,7 @@ app.post("/api/signup", async (req, res) => {
 // POST /api/login
 app.post("/api/login", async (req, res) => {
   let user = await userModel.findOne({ email: req.body.email });
-  if (!user) return res.send("Something is wrong ! ");
+  if (!user) return res.status(400).json({message:"Something is wrong ! "});
 
   bcrypt.compare(req.body.password, user.password, function (err, result) {
     if (result) {
@@ -66,9 +66,15 @@ app.post("/api/login", async (req, res) => {
         secure: false, 
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       });
-      res.json("Yes you can login.");
-    } else res.json("No you can't login!");
+      console.log(token);
+      res.json({ message: "Login successful" });
+    } else return res.status(400).json({ message: "Invalid credentials" });
   });
+});
+
+app.post('/api/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: 'You are logged out' });
 });
 
 // Start server
