@@ -10,8 +10,10 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const userModel = require("./models/user.js");
 const verifyUser = require("./middleware/verifyUser");
+const Password = require("./models/password"); 
 
 
+//middlewares
 app.use(cookieParser());
 app.use(express.json());
 
@@ -59,7 +61,7 @@ app.post("/api/login", async (req, res) => {
 
   bcrypt.compare(req.body.password, user.password, function (err, result) {
     if (result) {
-      let token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+      let token = jwt.sign({ email: user.email, id: user._id.toString()  }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
       res.cookie("token", token, {
@@ -87,6 +89,28 @@ app.get("/api/dashboard", verifyUser, (req, res) => {
     message: `Welcome to your dashboard, ${req.user.email}`,
   });
 });
+
+//save password
+app.post("/api/passwords", verifyUser, async (req, res) => {
+  try {
+    const { title, username, password } = req.body;
+
+    const newPassword = await Password.create({
+      userId: req.user.id,
+      title,
+      username,
+      password,
+    });
+
+    res.status(201).json({ message: "Password saved", data: newPassword });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to save password" });
+  }
+});
+
+//show all passwords
+//update password
+//delete password
 
 // Start server
 app.listen(PORT, () => {
