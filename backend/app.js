@@ -9,6 +9,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const userModel = require("./models/user.js");
+const verifyUser = require("./middleware/verifyUser");
+
 
 app.use(cookieParser());
 app.use(express.json());
@@ -22,7 +24,7 @@ mongoose
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Test route
+// Test route - dashboard
 app.get("/", (req, res) => {
   res.send("Backend is running");
 });
@@ -72,9 +74,18 @@ app.post("/api/login", async (req, res) => {
   });
 });
 
+
+//POST /api/logout
 app.post('/api/logout', (req, res) => {
   res.clearCookie('token');
   res.json({ message: 'You are logged out' });
+});
+
+//protected function
+app.get("/api/dashboard", verifyUser, (req, res) => {
+  res.json({
+    message: `Welcome to your dashboard, ${req.user.email}`,
+  });
 });
 
 // Start server
