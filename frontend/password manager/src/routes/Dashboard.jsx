@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "../utils/axios";
 import PasswordItem from "../components/PasswordItem";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const [formData, setFormData] = useState({
@@ -10,6 +12,7 @@ function Dashboard() {
   });
 
   const [passwords, setPasswords] = useState([]);
+  const navigate = useNavigate();
 
   // Handle input change
   const handleChange = (e) => {
@@ -24,11 +27,11 @@ function Dashboard() {
     e.preventDefault();
     try {
       const res = await axios.post("/passwords", formData);
-      alert(res.data.message);
+      toast.success(res.data.message);
       setFormData({ title: "", username: "", password: "" });
       fetchPasswords();
     } catch (err) {
-      alert(err.response?.data?.error || "Failed to save password");
+      toast.error(err.response?.data?.error || "Failed to save password");
     }
   };
 
@@ -46,9 +49,8 @@ function Dashboard() {
     try {
       await axios.put(`/passwords/${id}`, updatedData);
       fetchPasswords();
-    } catch (err){
-      console.error("Update error:", err);
-      alert("Failed to update password");
+    } catch {
+      toast.error("Failed to update password");
     }
   };
 
@@ -59,11 +61,18 @@ function Dashboard() {
 
     try {
       const res = await axios.delete(`/passwords/${id}`);
-      alert(res.data.message);
+      toast.success(res.data.message);
       fetchPasswords();
     } catch {
       alert("Failed to delete password");
     }
+  };
+
+  const logout = async () => {
+    const res = await axios.post("/logout");
+    setPasswords(res.data);
+    toast.success("Logged out successfully!");
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -72,7 +81,13 @@ function Dashboard() {
 
   return (
     <div style={{ padding: "50px" }}>
-      <h1>Dashboard</h1>
+      <button
+        className="border-1 rounded-2xl px-6 py-2 bg-yellow-600 text-white"
+        onClick={logout}
+      >
+        Logout
+      </button>
+      <h1 className="mb-5 text-3xl mt-4">Dashboard</h1>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -81,6 +96,7 @@ function Dashboard() {
           value={formData.title}
           onChange={handleChange}
           required
+          className="border-1 rounded-2xl p-2"
         />
         <br />
         <br />
@@ -89,6 +105,7 @@ function Dashboard() {
           placeholder="Username"
           value={formData.username}
           onChange={handleChange}
+          className="border-1 rounded-2xl p-2"
         />
         <br />
         <br />
@@ -97,15 +114,22 @@ function Dashboard() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          className="border-1 rounded-2xl p-2"
         />
         <br />
         <br />
-        <button type="submit">Save Password</button>
+        <button
+          className="border-1 rounded-2xl px-6 py-2 bg-amber-950 text-white"
+          type="submit"
+        >
+          Save Password
+        </button>
       </form>
+      <br />
 
       <hr />
 
-      <h2>Saved Passwords</h2>
+      <h2 className="text-4xl mt-4">Saved Passwords</h2>
       <div className="grid grid-cols-4 gap-4 mt-10">
         {passwords.map((pass) => (
           <PasswordItem

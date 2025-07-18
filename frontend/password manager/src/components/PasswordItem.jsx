@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef  } from "react";
+import { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 function PasswordItem({ pass, onDelete, onUpdate }) {
   const [editing, setEditing] = useState(false);
@@ -8,13 +9,21 @@ function PasswordItem({ pass, onDelete, onUpdate }) {
     password: pass.password,
   });
 
+  const formattedDate = new Date(pass.createdAt).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   const inputRef = useRef(null);
 
   useEffect(() => {
-  if (editing && inputRef.current) {
-    inputRef.current.focus();
-  }
-}, [editing]);
+    if (editing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editing]);
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -23,7 +32,7 @@ function PasswordItem({ pass, onDelete, onUpdate }) {
     try {
       await onUpdate(pass._id, updated);
     } catch {
-      alert("Update failed");
+      toast.error("Update failed");
     }
   };
 
@@ -31,7 +40,12 @@ function PasswordItem({ pass, onDelete, onUpdate }) {
     <div className="border rounded-lg p-4 shadow-md bg-white">
       {editing ? (
         <>
-          <input name="title" value={formData.title} onChange={handleChange} ref={inputRef}  />
+          <input
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            ref={inputRef}
+          />
           <input
             name="username"
             value={formData.username}
@@ -54,8 +68,9 @@ function PasswordItem({ pass, onDelete, onUpdate }) {
           </p>
         </>
       )}
+      <p className="text-xs text-gray-400 mt-2">Saved on: {formattedDate}</p>{" "}
       <br />
-      <div className="mt-2 ">
+      <div className="mt-4 ">
         <button
           className="border border-none bg-[#4CAF50] text-white px-4"
           onClick={() => setEditing(!editing)}
