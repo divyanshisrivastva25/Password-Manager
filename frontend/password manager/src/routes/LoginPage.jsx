@@ -8,7 +8,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FaUserAlt } from "react-icons/fa";
 
 
-function Login() {
+function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -105,4 +105,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;
