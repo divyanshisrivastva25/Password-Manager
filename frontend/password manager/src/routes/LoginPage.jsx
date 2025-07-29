@@ -7,7 +7,6 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaUserAlt } from "react-icons/fa";
 
-
 function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -36,8 +35,11 @@ function LoginPage() {
   return (
     <div className="grid place-items-center bg-[linear-gradient(90deg,rgba(130,50,227,1)_0%,rgba(142,42,191,1)_72%,rgba(9,9,121,1)_100%,rgba(0,212,255,1)_100%)] w-full min-h-screen">
       <div className="w-[60%] bg-white h-[70%] flex rounded-2xl">
-        <div className="left w-[60%] rounded-2xl overflow-hidden" >
-          <img src={bgImg} alt="" className=" relative h-full overflow-hidden rounded-tl-2xl rounded-bl-2xl rounded-tr-full rounded-br-full " />
+        <div className="left w-[60%] rounded-2xl overflow-hidden">
+          <img
+            src={bgImg}
+            className=" relative h-full overflow-hidden rounded-tl-2xl rounded-bl-2xl rounded-tr-full rounded-br-full "
+          />
           <div className="absolute top-[25%] mt-8 p-8 tracking-wide text-white ">
             <h1 className="text-6xl font-bold font-serif">Welcome.</h1>
             <p className="mt-4 max-w-[360px] text-center font-semibold tracking-wide">
@@ -47,14 +49,13 @@ function LoginPage() {
           </div>
         </div>
         <div className="right w-[40%] bg-white flex justify-center items-center flex-col gap-5 rounded-r-2xl">
-          {/* <h1 className="mb-5 text-3xl text-purple-500 font-serif">
-            User Login
-          </h1> */}
           <div>
             <FaUserAlt className="text-purple-500 text-4xl" />
-
           </div>
-          <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-5 items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-4 flex flex-col gap-5 items-center"
+          >
             <div className=" bg-zinc-300 hover:bg-zinc-400 inset-shadow-sm inset-shadow-purple-400 rounded-2xl gap-2 flex justify-center items-center px-4 py-2">
               <span>
                 <MdOutlineMailOutline className="text-zinc-500 text-xl" />

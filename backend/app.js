@@ -13,14 +13,15 @@ const verifyUser = require("./middleware/verifyUser");
 const Password = require("./models/password");
 const cors = require("cors");
 
-
 //middlewares
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
-  origin: "http://localhost:5173",  
-  credentials: true              
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 //MongoDB Connect
 mongoose
@@ -79,7 +80,10 @@ app.post("/api/login", async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       });
       console.log(token);
-      res.json({ message: "Login successful" });
+      res.json({
+        message: "Login successful",
+        username: user.username,
+      });
     } else return res.status(400).json({ message: "Invalid credentials" });
   });
 });
