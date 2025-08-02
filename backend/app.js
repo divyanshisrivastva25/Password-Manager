@@ -37,8 +37,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Test route - dashboard
 app.get("/", (req, res) => {
@@ -122,7 +122,7 @@ app.post("/api/passwords", verifyUser, async (req, res) => {
       password,
     });
 
-    res.status(201).json({ message: "Password saved", data: newPassword });
+    res.status(201).json({ message: "Password saved"});
   } catch (err) {
     res.status(500).json({ error: "Failed to save password" });
   }

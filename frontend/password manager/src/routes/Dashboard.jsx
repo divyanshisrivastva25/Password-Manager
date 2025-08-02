@@ -4,7 +4,7 @@ import PasswordItem from "../components/PasswordItem";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function Dashboard() {
+// function Dashboard() {
 import { RiShieldCheckFill } from "react-icons/ri";
 import { BiSolidLock } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
@@ -88,65 +88,6 @@ function Dashboard() {
   }, []);
 
   return (
-    <div style={{ padding: "50px" }}>
-      <button
-        className="border-1 rounded-2xl px-6 py-2 bg-yellow-600 text-white"
-        onClick={logout}
-      >
-        Logout
-      </button>
-      <h1 className="mb-5 text-3xl mt-4">Dashboard</h1>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          name="title"
-          placeholder="Website/App"
-          value={formData.title}
-          onChange={handleChange}
-          required
-          className="border-1 rounded-2xl p-2"
-        />
-        <br />
-        <br />
-        <input
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          className="border-1 rounded-2xl p-2"
-        />
-        <br />
-        <br />
-        <input
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="border-1 rounded-2xl p-2"
-        />
-        <br />
-        <br />
-        <button
-          className="border-1 rounded-2xl px-6 py-2 bg-amber-950 text-white"
-          type="submit"
-        >
-          Save Password
-        </button>
-      </form>
-      <br />
-
-      <hr />
-
-      <h2 className="text-4xl mt-4">Saved Passwords</h2>
-      <div className="grid grid-cols-4 gap-4 mt-10">
-        {passwords.map((pass) => (
-          <PasswordItem
-            key={pass._id}
-            pass={pass}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
-          />
-        ))}
     <div className="relative flex flex-col justify-center items-center min-h-screen bg-indigo-100">
       {showForm && (
         <div

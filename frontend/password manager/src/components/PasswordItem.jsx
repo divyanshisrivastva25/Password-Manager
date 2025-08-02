@@ -46,52 +46,6 @@ function PasswordItem({ pass, onDelete, onUpdate }) {
   };
 
   return (
-    <div className="border rounded-lg p-4 shadow-md bg-white">
-      {editing ? (
-        <>
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            ref={inputRef}
-          />
-          <input
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          <input
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </>
-      ) : (
-        <>
-          <h3 className="text-lg font-semibold">{pass.title}</h3>
-          <p>
-            <strong>Username:</strong> {pass.username}
-          </p>
-          <p>
-            <strong>Password:</strong> {pass.password}
-          </p>
-        </>
-      )}
-      <p className="text-xs text-gray-400 mt-2">Saved on: {formattedDate}</p>{" "}
-      <br />
-      <div className="mt-4 ">
-        <button
-          className="border border-none bg-[#4CAF50] text-white px-4"
-          onClick={() => setEditing(!editing)}
-        >
-          {editing ? "Done" : "Edit"}
-        </button>
-        <button
-          className="border border-none bg-[#f44336] text-white px-4 ml-2"
-          onClick={() => onDelete(pass._id)}
-        >
-          Delete
-        </button>
     <div className={`flex flex-col gap-4 items-center rounded-lg p-4 shadow-md shadow-zinc-700 ${randomColor}`}>
       {/* add dynamic logo. */}
       <div className="w-20 h-20 rounded-full">
