@@ -89,10 +89,6 @@ app.post("/api/login", async (req, res) => {
       });
       console.log(token);
       res.json({ message: "Login successful" });
-      res.json({
-        message: "Login successful",
-        username: user.username,
-      });
     } else return res.status(400).json({ message: "Invalid credentials" });
   });
 });
@@ -134,6 +130,7 @@ app.get("/api/passwords", verifyUser, async (req, res) => {
     const passwords = await Password.find({ userId: req.user.id });
     res.json(passwords);
   } catch (err) {
+    console.log("not working!")
     res.status(500).json({ error: "Failed to fetch passwords" });
   }
 });

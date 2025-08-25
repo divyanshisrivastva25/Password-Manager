@@ -199,7 +199,8 @@ function Dashboard() {
         </div>
 
         <div className="grid grid-cols-4 gap-4">
-          {passwords
+          {
+          passwords
             .filter((pass) =>
               pass.title.toLowerCase().includes(searchTerm.toLowerCase())
             )
