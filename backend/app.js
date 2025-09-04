@@ -18,18 +18,9 @@ const cors = require("cors");
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173",  
-  credentials: true              
+  origin: "https://passdo.vercel.app",  // frontend deploy URL
+  credentials: true
 }));
-//middlewares
-app.use(cookieParser());
-app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
 
 //MongoDB Connect
 mongoose
@@ -83,8 +74,8 @@ app.post("/api/login", async (req, res) => {
       );
       res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
-        secure: false,
+        sameSite: "none",
+        secure: true,
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       });
       console.log(token);
